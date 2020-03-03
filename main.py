@@ -1,13 +1,27 @@
 from classes.game import Person, bcolors
+from classes.magic import Spell
+
+#Black Magic
+fire = Spell("Fire", 15, 152, "black")
+thunder = Spell("Thunder", 10, 137, "black")
+blizzard = Spell("Blizzard", 8, 15, "black")
+water = Spell("Water", 5, 50, "black")
+wind = Spell("Wind", 7, 80, "black")
 
 
-magic = [{"name": "Fire", "cost": 15, "dmg": 152},
+#White Magic
+
+cure = Spell("Cure", 12, 120, "white" )
+light = Spell("Light", 18, 200, "white")
+
+""" magic = [{"name": "Fire", "cost": 15, "dmg": 152},
          {"name": "Thunder", "cost": 10, "dmg": 137},
          {"name": "Blizzard", "cost": 8, "dmg": 105}]
+ """
+ # Getting ready for Player and Enemy
 
-
-player = Person(460, 65, 60, 34, magic)
-enemy = Person(1200, 65, 45, 25, magic)
+player = Person(460, 65, 60, 34, [fire, thunder, blizzard, water, wind, cure, light])
+enemy = Person(1200, 65, 45, 25, [])
 
 
 #print(player.generate_spell_damage(0))
@@ -34,19 +48,26 @@ while running:
     elif index == 1:
         player.choose_magic()
         magic_choice = int(input("Choose magic:")) -1 
-        magic_dmg = player.generate_spell_damage(magic_choice)
-        spell = player.get_spell_name(magic_choice)
-        cost = player.get_spell_mp_cost(magic_choice)
+
+
+        # magic_dmg = player.generate_spell_damage(magic_choice)
+        # spell = player.get_spell_name(magic_choice)
+        # cost = player.get_spell_mp_cost(magic_choice)
+
+        spell = player.magic[magic_choice]
+        magic_dmg = player.magic[magic_choice].generate_damage()
+        
+
 
         current_mp = player.get_mp()
 
-        if cost > current_mp:
+        if spell.cost > current_mp:
             print(bcolors.FAIL + "\nYou Dont Have Enough Magic Powers\n" + bcolors.ENDC)
             continue
 
-        player.reduce_mp(cost)
+        player.reduce_mp(spell.cost)
         enemy.take_damage(magic_dmg)
-        print(bcolors.OKBLUE + "\n" + spell + " deals", str(magic_dmg), "Points of damage" + bcolors.ENDC)
+        print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "Points of damage" + bcolors.ENDC)
 
     enemy_choice = 1 
 
