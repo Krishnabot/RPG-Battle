@@ -1,6 +1,7 @@
 from classes.game import Person, bcolors
 from classes.magic import Spell
 
+
 #Black Magic
 fire = Spell("Fire", 15, 152, "black")
 thunder = Spell("Thunder", 10, 137, "black")
@@ -12,7 +13,7 @@ wind = Spell("Wind", 7, 80, "black")
 #White Magic
 
 cure = Spell("Cure", 12, 120, "white" )
-light = Spell("Light", 18, 200, "white")
+cura = Spell("Light", 18, 200, "white")
 
 """ magic = [{"name": "Fire", "cost": 15, "dmg": 152},
          {"name": "Thunder", "cost": 10, "dmg": 137},
@@ -20,7 +21,7 @@ light = Spell("Light", 18, 200, "white")
  """
  # Getting ready for Player and Enemy
 
-player = Person(460, 65, 60, 34, [fire, thunder, blizzard, water, wind, cure, light])
+player = Person(460, 65, 60, 34, [fire, thunder, blizzard, water, cure, cura])
 enemy = Person(1200, 65, 45, 25, [])
 
 
@@ -55,7 +56,7 @@ while running:
         # cost = player.get_spell_mp_cost(magic_choice)
 
         spell = player.magic[magic_choice]
-        magic_dmg = player.magic[magic_choice].generate_damage()
+        magic_dmg = spell.generate_damage()
         
 
 
@@ -64,6 +65,19 @@ while running:
         if spell.cost > current_mp:
             print(bcolors.FAIL + "\nYou Dont Have Enough Magic Powers\n" + bcolors.ENDC)
             continue
+
+
+        player.reduce_mp(spell.cost)
+
+        if spell.magic_type == "white":
+            player.heal(magic_dmg)
+            print(bcolors.OKBLUE + "\n" + spell.name + " heals for", str(magic_dmg), "HP." + bcolors.ENDC)
+            
+        elif spell.magic_type == "black":
+            enemy.take_damage(magic_dmg)
+            print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "Points of damage" + bcolors.ENDC)
+
+
 
         player.reduce_mp(spell.cost)
         enemy.take_damage(magic_dmg)
