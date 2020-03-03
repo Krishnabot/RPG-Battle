@@ -22,14 +22,14 @@ class Person:
         self.atkh = atk +10
         self.df = df 
         self.magic = magic 
-        self.action = {"Attack", "Magic"}
+        self.action = ["Attack", "Magic"]
 
     def generate_damage(self):
         return random.randrange(self.atkl, self.atkh)
 
     def generate_spell_damage(self, i):
-        mgl = self.magic[i] ["dmg"] -5
-        mgh = self.magic[i] ["dmg"] +5
+        mgl = self.magic[i]["dmg"] -5
+        mgh = self.magic[i]["dmg"] +5
         return random.randrange(mgl, mgh)
 
 
@@ -49,7 +49,7 @@ class Person:
         return self.mp
 
     def get_max_mp(self):
-        return self.get_max_mp
+        return self.maxmp
 
     def reduce_mp(self, cost):
         self.mp -=cost
@@ -69,6 +69,6 @@ class Person:
     def choose_magic(self):
         i = 1
         for spell in self.magic:
-            print(str(i) + ":", spell["name"], "{cost:", str(spell["mp"]) + ")")
+            print(str(i) + ":", spell["name"], "(cost:", str(spell["cost"]), ")")
             i += 1
 
